@@ -90,8 +90,11 @@ function fail(message) {
 
 /* ---------- HTTP（强制 IPv4 + 重试） ---------- */
 
+// 强制只解析 IPv4。注意必须原样透传调用方给的 options（尤其是 all）：
+// Node 20+ 默认开启 autoSelectFamily（Happy Eyeballs），此时会以 all: true 调用 lookup
+// 并期望得到地址数组；若强行改成 all: false 返回裸字符串，会报 ERR_INVALID_IP_ADDRESS。
 const ipv4Lookup = (hostname, options, callback) => {
-  dns.lookup(hostname, { ...options, family: 4, all: false }, callback)
+  dns.lookup(hostname, { ...options, family: 4 }, callback)
 }
 
 function request({ method, path: urlPath, token, body, contentType, timeout = 180000 }) {
