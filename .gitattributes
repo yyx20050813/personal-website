@@ -1,0 +1,8 @@
+# 统一换行符，避免 Windows / macOS 协作时产生无意义的 diff
+* text=auto
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.css  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.svg  text eol=lf

@@ -1,0 +1,24 @@
+{
+  "name": "personal-showcase",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "纯前端个人展示网站（个人信息 / 技能展示 / 项目经历）+ 本地管理后台",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
