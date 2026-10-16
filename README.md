@@ -4,6 +4,19 @@
 
 线上效果即本仓库构建产物，构建完成后可直接部署到 Cloudflare Pages / GitHub Pages / 任意静态服务器。
 
+**线上地址**：<https://personal-website-bri.pages.dev>（Cloudflare Pages 项目 `personal-website`）
+
+---
+
+## 项目文档
+
+| 文档 | 内容 |
+| --- | --- |
+| [`PRD.md`](./PRD.md) | 产品需求：目标用户、功能清单与优先级、页面结构、验收标准 |
+| [`TECH_DESIGN.md`](./TECH_DESIGN.md) | 技术设计：架构、数据模型与三层优先级、文件存储、构建与部署链路 |
+| [`AGENTS.md`](./AGENTS.md) | 协作约定：目录职责、编码规范、数据模型变更清单、验证清单 |
+| [`README.md`](./README.md) | 本文档：功能特性、使用方式、部署步骤与常见问题 |
+
 ---
 
 ## 功能特性
@@ -116,7 +129,7 @@ npm run preview  # 预览构建产物
 ```bash
 npx wrangler login                                   # 浏览器授权
 npm run build                                        # 先构建
-npx wrangler pages deploy dist --project-name=personal-showcase
+npx wrangler pages deploy dist --project-name=personal-website
 ```
 
 也可以直接用 API Token 免交互：
@@ -124,10 +137,21 @@ npx wrangler pages deploy dist --project-name=personal-showcase
 ```bash
 # PowerShell
 $env:CLOUDFLARE_API_TOKEN = "<你的 Token>"
-npx wrangler pages deploy dist --project-name=personal-showcase
+npx wrangler pages deploy dist --project-name=personal-website
 ```
 
 Token 权限只需要 **Account → Cloudflare Pages → Edit**。
+
+### 方式二·补充：仓库内置的直传脚本
+
+`scripts/deploy-cloudflare.mjs` 直接调用 Cloudflare Pages 的直传部署 API，强制使用 IPv4 解析并带重试。如果本机网络下 `wrangler` 报 `fetch failed / UND_ERR_CONNECT_TIMEOUT`（`api.cloudflare.com` 的 IPv6 记录不可达），用这个脚本更稳：
+
+```bash
+node scripts/deploy-cloudflare.mjs
+node scripts/deploy-cloudflare.mjs --project personal-website --branch main --dir dist
+```
+
+凭据按顺序查找：环境变量 `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`（推荐，长期可用）→ `npx wrangler login` 生成的 OAuth 配置（约 1 小时过期）。
 
 ### 方式三：其他静态托管
 
@@ -153,7 +177,7 @@ git push -u origin main
 或者使用 GitHub CLI 一步创建并推送：
 
 ```bash
-gh repo create personal-showcase --public --source=. --push
+gh repo create personal-website --public --source=. --push
 ```
 
 ---
